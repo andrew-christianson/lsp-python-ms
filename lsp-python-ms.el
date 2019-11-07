@@ -139,6 +139,11 @@ stable, beta or daily."
   :type 'boolean
   :group 'lsp-python-ms)
 
+(defcustom lsp-python-ms-venv-dir "venv/"
+  "The default directory that should be searched for a virtual-environment"
+  :type 'string
+  :group 'lsp-python-ms)
+
 (defconst lsp-python-ms--base-url "https://pvsc.blob.core.windows.net"
   "The base url to get nupkg package.
 The alternative is `https://pvsc.azureedge.net'")
@@ -251,9 +256,9 @@ After stopping or killing the process, retry to update."
 
 (defun lsp-python-ms-locate-python (root)
   "Look for virtual environments local to the workspace"
-  (let* ((venv (locate-dominating-file default-directory "venv/"))
+  (let* ((venv (locate-dominating-file root lsp-python-ms-venv-dir))
          (sys-python (executable-find lsp-python-ms-python-executable-cmd))
-         (venv-python (expand-file-name "venv/bin/python" venv)))
+         (venv-python (expand-file-name (concat lsp-python-ms-venv-dir "bin/python") venv)))
     (cond
      ((and venv (file-executable-p venv-python)) venv-python)
      (sys-python))))
