@@ -83,7 +83,11 @@ the python on the head of PATH
           (const :tag "Off" nil)
           (const :tag "On" t)
           (const :tag "Addon" 'addon))
-  :options '(t 'addon)
+  :options '(t 'addon))
+
+(defcustom lsp-python-ms-python-executable nil
+  "Path to specify the Python executable for the Microsoft Python Language Server."
+  :type '(file :must-match t)
   :group 'lsp-python-ms)
 
 (defcustom lsp-python-ms-extra-paths []
@@ -356,13 +360,13 @@ After stopping or killing the process, retry to update."
     ;; pythons by preference: local pyenv version, local conda version
 
     (if lsp-python-ms-guess-env
-      (cond
-       ( (lsp-python-ms--valid-python venv-python) )
-       ( (lsp-python-ms--valid-python pyenv-python) )
-       ( (lsp-python-ms--valid-python conda-python) )
-       ( (lsp-python-ms--valid-python sys-python) ))
-      (cond
-       ((lsp-python-ms--valid-python sys-python))))))
+        (cond ((lsp-python-ms--valid-python lsp-python-ms-python-executable))
+              ((lsp-python-ms--valid-python venv-python))
+              ((lsp-python-ms--valid-python pyenv-python))
+              ((lsp-python-ms--valid-python conda-python))
+              ((lsp-python-ms--valid-python sys-python)))
+      (cond ((lsp-python-ms--valid-python sys-python))))))
+
 ;; it's crucial that we send the correct Python version to MS PYLS,
 ;; else it returns no docs in many cases furthermore, we send the
 ;; current Python's (can be virtualenv) sys.path as searchPaths
