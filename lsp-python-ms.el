@@ -353,6 +353,7 @@ After stopping or killing the process, retry to update."
 
 (defun lsp-python-ms-locate-python (&optional dir)
   "Look for virtual environments local to the workspace"
+  (interactive)
   (let* ((pyenv-python (lsp-python-ms--dominating-pyenv-python dir))
          (venv-python (lsp-python-ms--dominating-venv-python dir))
          (conda-python (lsp-python-ms--dominating-conda-python dir))
@@ -619,7 +620,7 @@ WORKSPACE is just used for logging and _PARAMS is unused."
                               (and (cl-first lsp-python-ms-pyright-server-cmd)
                                    (executable-find (cl-first lsp-python-ms-pyright-server-cmd)))))
            :server-id 'mspyright
-           :multi-root t
+           :multi-root nil
            :add-on? ,(eq lsp-python-ms-use-pyright 'addon)
            :priority 1
            :initialized-fn (lambda (workspace)
