@@ -316,7 +316,9 @@ After stopping or killing the process, retry to update."
 
 (defun lsp-python-ms--dominating-venv-python (&optional dir)
   "Look for directories that look like venvs"
-  (let ((dominating-venv (locate-dominating-file (or dir default-directory) #'lsp-python-ms--venv-python)))
+  (let ((dominating-venv (or
+                          (locate-dominating-file (or dir default-directory) #'lsp-python-ms--venv-python)
+                          (lsp-python-ms--venv-dir (locate-dominating-file (or dir default-directory) #'lsp-python-ms--venv-dir)))))
     (when dominating-venv (lsp-python-ms--venv-python dominating-venv))))
 
 (defun lsp-python-ms--dominating-conda-python (&optional dir)
