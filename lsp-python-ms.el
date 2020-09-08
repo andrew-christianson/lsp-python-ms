@@ -298,8 +298,9 @@ After stopping or killing the process, retry to update."
 
 (defun lsp-python-ms--venv-dir (dir)
   "does directory contain a virtualenv"
-  (let ((dirs (f-directories dir)))
-    (car (seq-filter #'lsp-python-ms--venv-python dirs))))
+  (when dir
+    (let ((dirs (f-directories dir)))
+      (car (seq-filter #'lsp-python-ms--venv-python dirs)))))
 
 (defun lsp-python-ms--venv-python (dir)
   "is a directory a virtualenv"
