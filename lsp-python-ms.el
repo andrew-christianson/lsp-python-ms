@@ -330,7 +330,9 @@ After stopping or killing the process, retry to update."
                        "env.yml"
                        "env.yaml"
                        "dev-environment.yml"
-                       "dev-environment.yaml"))
+                       "dev-environment.yaml"
+                       ".conda.yaml"
+                       ".conda.yml"))
               (dominating-yaml (seq-map
                                 (lambda (file) (if (locate-dominating-file path file)
                                                    (expand-file-name file (locate-dominating-file path file))))
